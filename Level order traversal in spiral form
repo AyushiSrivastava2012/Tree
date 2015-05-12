@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node{
+	int data;
+	struct node* left;
+	struct node* right;
+};
+
+struct node* newNode(int d){
+	struct node*tmp=(struct node*)malloc(sizeof(struct node));
+	tmp->data=d;
+	tmp->left=NULL;
+	tmp->right=NULL;
+	return tmp;
+}
+int height(struct node* root){
+	if(root == NULL)
+	return 0;
+	return 1+max(height(root->right),height(root->left));
+}
+void printGivenLevel(struct node*root,int h,int flag){
+	if(root==NULL)
+	return;
+	if(h ==1){
+		cout<<root->data<<" ";
+	}
+	else if(h>1){ 
+		if(flag==1){
+	//	flag=0?1:0;
+	printGivenLevel(root->right,h-1,flag);
+	printGivenLevel(root->left,h-1,flag);
+	
+	}
+	else if( flag==0){
+	//	flag=0?1:0;
+	printGivenLevel(root->left,h-1,flag);
+	printGivenLevel(root->right,h-1,flag);}
+	}
+}
+ 
+void printLevelOrder(struct node* root){
+	int h=height(root);
+	int flag=0;
+	for(int i=0;i<=h;i++){
+		printGivenLevel(root,i,flag);
+		if(flag==0)flag=1;
+		else
+		flag=0;
+	}
+}
+
+int main() {
+	struct node *root = newNode(1);
+    root->left        = newNode(2);
+    root->right       = newNode(3);
+    root->left->left  = newNode(7);
+    root->left->right = newNode(6);
+    root->right->left  = newNode(5);
+    root->right->right = newNode(4);
+	printLevelOrder(root);
+	return 0;
+}
