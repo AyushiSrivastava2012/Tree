@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+//To find if there is any root to leaf path with specified sum in a binary tree.
+struct node{
+	struct node* left,*right;
+	int val;
+};
+struct node* create(int d){
+	struct node*tmp=(struct node*)malloc(sizeof(struct node));
+	tmp->val=d;
+	tmp->left=NULL;
+	tmp->right=NULL;
+	return tmp;
+}
+bool sumTree(struct node* root,int sum,int k){
+	if(root->right==NULL && root->left==NULL) return (sum+root->val==k);
+	else if(sum+root->val>k)return false;
+	return  sumTree(root->right,sum+root->val,k)||sumTree(root->left,sum+root->val,k);
+}
+int main() {
+	struct node* root1=create(1);
+	root1->left=create(2);
+	root1->right=create(3);
+	struct node* root2=create(1);
+	root2->left=create(2);
+	int k=4;
+	cout<<sumTree(root1,0,k);
+	
+	return 0;
+}
